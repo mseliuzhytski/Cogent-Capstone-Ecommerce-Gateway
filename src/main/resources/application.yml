@@ -1,0 +1,32 @@
+server:
+  port: 9005
+
+spring:
+  application:
+    name: API-Gateway
+  cloud:
+    gateway:
+      routes:
+        - id: sales-report-service
+          uri: lb://sales-report-service
+          predicates:
+            - Path=/salesreport/**
+        - id: Discount-Service
+          uri: lb://Discount-Service
+          predicates:
+            - Path=/discount/**
+        - id: main-service
+          uri: lb://main-service
+          predicates:
+            - Path=/**
+
+
+#This is to configure the Eureka Client
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+instance:
+  hostname: localhost
